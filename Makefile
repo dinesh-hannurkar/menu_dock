@@ -13,7 +13,7 @@ endif
 
   @echo "Clean existing repository"
   flutter clean
-
+ 
   @echo "Getting packages..."
   flutter pub get
 
