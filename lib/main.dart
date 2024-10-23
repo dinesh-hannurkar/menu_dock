@@ -120,7 +120,8 @@ class _DockState<T> extends State<Dock<T>> {
         opacity: _draggingIndex == index ? 0.0 : 1.0,
         child: Transform.scale(
           scale: _draggingIndex == index ? 1.5 : 1.0,
-          child: widget.builder(item),
+          child:
+              _draggingIndex == index ? const SizedBox() : widget.builder(item),
         ),
       ),
     );
@@ -134,7 +135,8 @@ class _DockState<T> extends State<Dock<T>> {
 
   void _updateDragPosition(Offset globalPosition) {
     // Convert the global position to the local position inside the container
-    final RenderBox containerBox = _containerKey.currentContext!.findRenderObject() as RenderBox;
+    final RenderBox containerBox =
+        _containerKey.currentContext!.findRenderObject() as RenderBox;
     _dragPosition = containerBox.globalToLocal(globalPosition);
   }
 
@@ -147,7 +149,7 @@ class _DockState<T> extends State<Dock<T>> {
   }
 
   int _getDropTargetIndex() {
-    double itemWidth = 60.0; 
+    double itemWidth = 60.0;
     int newIndex = (_dragPosition.dx / itemWidth).floor();
     return newIndex.clamp(0, _items.length - 1);
   }
@@ -156,14 +158,15 @@ class _DockState<T> extends State<Dock<T>> {
     _dragOverlay = OverlayEntry(
       builder: (context) {
         final item = _items[_draggingIndex!];
-        
+
         // Convert the local position back to global for positioning
-        final RenderBox containerBox = _containerKey.currentContext!.findRenderObject() as RenderBox;
+        final RenderBox containerBox =
+            _containerKey.currentContext!.findRenderObject() as RenderBox;
         final globalDragPosition = containerBox.localToGlobal(_dragPosition);
 
         return Positioned(
-          left: globalDragPosition.dx - 48, 
-          top: globalDragPosition.dy - 48, 
+          left: globalDragPosition.dx - 48,
+          top: globalDragPosition.dy - 48,
           child: IgnorePointer(
             child: Transform.scale(
               scale: 1.5,
